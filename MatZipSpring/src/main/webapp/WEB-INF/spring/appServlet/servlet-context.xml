@@ -50,4 +50,3 @@
 	<mybatis-spring:scan base-package="com.koreait.matzip"/>
 	
 	</beans:beans>
-

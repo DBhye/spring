@@ -20,7 +20,7 @@
 			level: 5 //지도의 레벨(확대, 축소 정도)
 		};
 	
-		var map = new kakao.maps.Map(mapContainer, options);
+		const map = new kakao.maps.Map(mapContainer, options);
 		
 		//마우스로 잡고 이동하고나서 놓으면 좌표가 넘어온다.(이벤트)
 		function getRestaurantList() {
@@ -31,9 +31,14 @@
 			console.log('southWest' + southWest)
 			console.log('northEast' + northEast)
 			
+			const sw_lat = southWest.getLat()
+			const sw_lng = southWest.getLng()
+			const ne_lat = northEast.getLat()
+			const ne_lng = northEast.getLng()
+			
 			axios.get('/rest/ajaxGetList', {
 				params: {
-					southWest, northEast
+					sw_lat, sw_lng, ne_lat, ne_lng
 				}
 			}).then(function(res) {
 				console.log(res.data)
@@ -43,8 +48,10 @@
 				})
 			})		
 		}
-		kakao.maps.event.addListener(map, 'dragend',getRestaurantList)
 		
+		kakao.maps.event.addListener(map, 'dragend', getRestaurantList)
+		
+		// 마커생성
 		function createMarker(item) {			
 			var content = document.createElement('div')
 			content.className = 'label'
